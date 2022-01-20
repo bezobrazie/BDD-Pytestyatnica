@@ -10,7 +10,7 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 class BasePage:
     """Базовый класс, от которого остальные классы Page наследуют общую, присущую всем функциональность"""
 
-    # Максимальное, за которое WebDriverWait будет ожидать событие какого-либо элемента.
+    # Максимальное время, за которое WebDriverWait будет ожидать событие какого-либо элемента.
     WAIT_TIMEOUT = 10
 
     def __init__(self, driver: RemoteWebDriver, url=CONFIG['baseUrl']):
