@@ -17,3 +17,8 @@ SETTINGS = {
 # Если окружение не указано, по умолчанию откроется прод
 STAND = os.environ.get('STAND', 'prod')
 CONFIG = SETTINGS[STAND]
+
+# Создаем директорию для хранения скриншотов
+if not os.path.exists(SCREENSHOTS_PATH):
+    os.makedirs(SCREENSHOTS_PATH)
+

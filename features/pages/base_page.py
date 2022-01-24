@@ -174,18 +174,14 @@ class BasePage:
         except TimeoutException:
             return 0
 
-    def do_screenshot(self, screenshot_name: str):
+    def create_screenshot(self, screenshot_name: str):
         """
         Делает скриншот и сохраняет в директорию которая указана в конфиге
         Добавлена доп логика, если директория отсктствует, он ее создаст
         """
         # sleep добавлен из-за непредсказуемости отображения печати.
         time.sleep(3)
-        if os.path.exists(SCREENSHOTS_PATH):
-            self.browser.save_screenshot(os.path.join(SCREENSHOTS_PATH, f"{screenshot_name}.png"))
-        else:
-            os.makedirs(SCREENSHOTS_PATH)
-            self.browser.save_screenshot(os.path.join(SCREENSHOTS_PATH, f"{screenshot_name}.png"))
+        self.browser.save_screenshot(os.path.join(SCREENSHOTS_PATH, f"{screenshot_name}.png"))
 
     def input_in_search(self, value: str) -> None:
         """

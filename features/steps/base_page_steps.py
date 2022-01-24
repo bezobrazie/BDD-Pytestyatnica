@@ -54,7 +54,7 @@ def check_url(ctx: Context, url):
     assert ctx.pages.base.check_url_contains_value(url), f'В урле нет значения {url}'
 
 
-@Then('Для прикола считаем количество кнопок "Войти" их должно быть "{expected_count:d}"')
-def chek_quantity_sign_in_button(ctx: Context, expected_count: int):
-    num = ctx.pages.base.get_quantity_of_elements(BasePageLocators.SIGN_IN_FOR_FUN)
-    assert num == expected_count, f'На странице {num} кнопок "Войти", ожидалось {expected_count}'
+@Then('Имя первого видео "{expected_name}"')
+def check_quantity_sign_in_button(ctx: Context, expected_name: str):
+    first_video_name = ctx.pages.base.get_text_from_element(BasePageLocators.FIRST_ITEM_IN_SEARCH)
+    assert first_video_name == expected_name, f'На странице {first_video_name} кнопок "Войти", ожидалось {expected_name}'

@@ -5,6 +5,7 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from features.pages.repository import PageRepository
+from behave.model import Step
 
 
 def browser_chrome(context: Context):
@@ -56,3 +57,12 @@ def before_scenario(ctx: Context, scenario: Scenario):
     или обыграть это доп логикой.
     """
     ctx.pages = PageRepository(ctx)
+
+
+def after_step(ctx: Context, step: Step):
+    """
+    При падении шага создает скриншот
+    """
+    if step.status == 'failed':
+        step_name = step.filename.replace("features/", "") + "." + str(step.line)
+        ctx.pages.base.create_screenshot(step_name)
