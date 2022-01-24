@@ -4,5 +4,7 @@ __pycache__/
 # Environments
 .env
 .venv
+.temp
 env/
 venv/
+temp/

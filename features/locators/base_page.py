@@ -6,18 +6,22 @@ class BasePageLocators:
      (Ну или хотя-бы на большинстве :) )"""
     # Поле поиска
     SEARCH_FIELD = (By.XPATH, '//*[@name="search_query"]')
+
+    # Кнопка поиска
+    DO_SEARCH_BUTTON = (By.XPATH, '//button[@class="style-scope ytd-searchbox"]')
+
     # Кнопка "Войти" из шапки сайта
-    SIGN_IN = (By.XPATH, 'test')
-    # Кнопка гамбургера, открывает/закрывает меню
-    MENU_BUTTON = (By.XPATH, 'test')
-    # Кнопка "Главная" в меню
-    MENU_BUTTON_MAIN = (By.XPATH, 'test')
-    # Кнопка "Навигатор" в меню
-    MENU_BUTTON_NAVIGATOR = (By.XPATH, 'test')
-    # Кнопка "Библиотека" в меню
-    MENU_BUTTON_LIBRARY = (By.XPATH, 'test')
-    # Кнопка "История" в меню
-    MENU_BUTTON_HISTORY = (By.XPATH, 'test')
-    # Перенести дял каждой страницы свой алерт.
-    # Ниже локатор общий для 2х страниц. Из которого можно вытащить месагу о том, что пользователь не авторизован, для всех страниц не подходит.
-    ALERT_TEXT = (By. XPATH, '//*[@class="promo-body-text style-scope ytd-background-promo-renderer"]')
+    SIGN_IN = (By.XPATH, '(//*[@aria-label="Войти"])[1]')
+
+    # Все кнопки "Войти" на странице локатор для примера подсчета элементов на странице
+    SIGN_IN_FOR_FUN = (By.XPATH, '//*[@aria-label="Войти"]')
+
+    # Лямбда функция для примера создания однотипных локаторов
+    SUB_MENU_BUTTON = lambda button_name: (By.XPATH, f"(//*[text()='{button_name}'])[1]")
+
+
+
+
+    # ЛОКАТОР ДЛЯ ПРОВЕРКИ, ЧТО МЫ НАХОДИМСЯ АН СТРАНИЦЕ ВТОРИЗАЦИИ.
+    # По хорошему для него нужнен отдельный файлик или класс, но т.к. локатор один, я сделаю исключение.
+    AUTH_TEXT = (By.XPATH, "//*[text()='Перейдите на YouTube']")

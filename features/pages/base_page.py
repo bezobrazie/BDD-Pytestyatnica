@@ -1,10 +1,14 @@
+import os
 from datetime import datetime
+import time
 from typing import List, Tuple
 from selenium.webdriver import Remote as RemoteWebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from config import CONFIG
+from config import CONFIG, SCREENSHOTS_PATH
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
+
+from features.locators.base_page import BasePageLocators
 
 
 class BasePage:
@@ -24,7 +28,7 @@ class BasePage:
         return self
 
     def open(self):
-        """Открыть страницу."""
+        """Открыть базовую страницу из конфиг файла."""
         self.browser.get(self.base_url)
 
     def accept_alert(self):
@@ -105,6 +109,20 @@ class BasePage:
         self.browser.switch_to.window(tab_name)
         self.browser.close()
 
+    def check_an_element_is_present(self, locator: Tuple[str, str], timeout=10):
+        """
+        Проверка на то, что элемент присутствует на странице.
+            :param locator: локатор для нахождения элемента на странице
+            :param timeout: время, за которое WebDriverWait будет ожидать событие
+            :return: признак, что элемент НЕ был найден на странице.
+        """
+        try:
+            WebDriverWait(self.browser, timeout).until(
+                ec.visibility_of_element_located(locator))
+            return True
+        except TimeoutException:
+            return False
+
     def check_an_element_is_not_present(self, locator: Tuple[str, str], timeout=0.5) -> bool:
         """
         Проверить, что элемент не появляется на странице в течение заданного времени.
@@ -155,3 +173,25 @@ class BasePage:
                 ec.visibility_of_all_elements_located(locator)))
         except TimeoutException:
             return 0
+
+    def do_screenshot(self, screenshot_name: str):
+        """
+        Делает скриншот и сохраняет в директорию которая указана в конфиге
+        Добавлена доп логика, если директория отсктствует, он ее создаст
+        """
+        # sleep добавлен из-за непредсказуемости отображения печати.
+        time.sleep(3)
+        if os.path.exists(SCREENSHOTS_PATH):
+            self.browser.save_screenshot(os.path.join(SCREENSHOTS_PATH, f"{screenshot_name}.png"))
+        else:
+            os.makedirs(SCREENSHOTS_PATH)
+            self.browser.save_screenshot(os.path.join(SCREENSHOTS_PATH, f"{screenshot_name}.png"))
+
+    def input_in_search(self, value: str) -> None:
+        """
+        Ввод в поле поиска значения по которому будет проходить поиск (ТОЛЬКО ВВОД, НЕ НАЖИМАЕТ НА "ПОИСК")
+            :param value: значение по которому мы ищем видео.
+            :raise TimeoutException: возникает, когда отчет не удалось найти по заданному имени.
+        """
+        WebDriverWait(self.browser, self.WAIT_TIMEOUT).until(
+            ec.visibility_of_element_located(BasePageLocators.SEARCH_FIELD)).send_keys(value)
