@@ -57,4 +57,4 @@ def check_url(ctx: Context, url):
 @Then('Имя первого видео "{expected_name}"')
 def check_quantity_sign_in_button(ctx: Context, expected_name: str):
     first_video_name = ctx.pages.base.get_text_from_element(BasePageLocators.FIRST_ITEM_IN_SEARCH)
-    assert first_video_name == expected_name, f'На странице {first_video_name} кнопок "Войти", ожидалось {expected_name}'
+    assert first_video_name == expected_name, f'Первое видео на странице называется "{first_video_name}", ожидалось "{expected_name}"'
